@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Select | Terceirização de Mão de Obra com Seleção Criteriosa</title>
+  <meta name="description" content="Select: terceirização de mão de obra com seleção criteriosa e acompanhamento de perto. Recepção, limpeza, copa, portaria, apoio administrativo e recrutamento.">
+  <meta name="theme-color" content="#5C7FC9">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+  <meta property="og:title" content="Select | Terceirização de Mão de Obra">
+  <meta property="og:description" content="Pessoas certas, cuidadas de verdade.">
+  <meta property="og:image" content="https://yurilarri.github.io/projeto-select/img/og-image.png">
+  <meta property="og:url" content="https://yurilarri.github.io/projeto-select/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            azul:  { DEFAULT: '#5C7FC9', texto: '#3D5CA3', escuro: '#2F4A8A', claro: '#EBF0FA' },
+            rosa:  { DEFAULT: '#FE3D7D', escuro: '#C8174F', claro: '#FFEAF1' },
+            coral: '#FF4351',
+            cinza: { DEFAULT: '#868585' },
+            fundo: '#F6F7FC'
+          },
+          fontFamily: {
+            titulo: ['Nunito', 'system-ui', 'sans-serif'],
+            sans: ['"Nunito Sans"', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid #FE3D7D; outline-offset: 2px; }
+    .glass-header { background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Abas (igual ao site da Athos) */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: entrar .5s cubic-bezier(.16, 1, .3, 1) both; }
+    @keyframes entrar { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+    .nav-btn { position: relative; }
+    .nav-btn::after { content: ''; position: absolute; bottom: 18px; left: 50%; width: 0; height: 3px; border-radius: 99px; background: linear-gradient(90deg, #FE3D7D, #FF4351); transition: all .3s ease; transform: translateX(-50%); }
+    .nav-btn.active { color: #3D5CA3; }
+    .nav-btn.active::after { width: 70%; }
+    @media (max-width: 1023px) { .nav-btn::after { bottom: 4px; } }
+
+    /* Degradê do coração da logo (rosa -> coral) */
+    .grad { background-image: linear-gradient(100deg, #FE3D7D, #FF4351); }
+    .grad-texto { background-image: linear-gradient(100deg, #FE3D7D, #FF4351); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+    details summary { list-style: none; cursor: pointer; }
+    details summary::-webkit-details-marker { display: none; }
+    details[open] .seta { transform: rotate(180deg); }
+
+    .opcao input:checked + span { background-image: linear-gradient(100deg, #FE3D7D, #FF4351); border-color: transparent; color: #fff; }
+    .opcao input:focus-visible + span { outline: 3px solid #5C7FC9; outline-offset: 2px; }
+
+
+    /* ===== Efeitos de tecnologia e movimento ===== */
+    /* Barra fina no alto: mostra quanto da página já foi lido */
+    #progresso { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 70; transform-origin: 0 50%; transform: scaleX(0);
+                 background: linear-gradient(90deg, #5C7FC9, #FE3D7D); pointer-events: none; }
+    /* Blocos que aparecem suavemente quando chegam na tela */
+    html [data-revelar] { opacity: 0; transform: translateY(26px);
+                          transition: opacity .8s cubic-bezier(.16,1,.3,1) var(--atraso, 0s), transform .8s cubic-bezier(.16,1,.3,1) var(--atraso, 0s); }
+    html [data-revelar].visivel { opacity: 1; transform: none; }
+    /* Título do topo: cada linha sobe de dentro de uma "janela" */
+    .linha-titulo { display: block; overflow: hidden; padding-bottom: .1em; margin-bottom: -.1em; }
+    .linha-titulo > span { display: inline-block; transform: translateY(110%); animation: subir 1s cubic-bezier(.16,1,.3,1) forwards; animation-delay: var(--atraso, .1s); }
+    @keyframes subir { to { transform: none; } }
+    .barra-crescer { transform-origin: left; animation: crescer .9s cubic-bezier(.16,1,.3,1) .1s both; }
+    @keyframes crescer { from { transform: scaleX(0); } }
+    /* Topo da página: entra sozinho assim que a página abre (não depende de rolar) */
+    .surgir { animation: surgir .9s cubic-bezier(.16,1,.3,1) var(--atraso, 0s) both; }
+    @keyframes surgir { from { opacity: 0; transform: translateY(22px); } }
+    /* Grade "tecnológica" no fundo, andando devagar */
+    .grade-tech { background-image: linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px);
+                  background-size: 56px 56px; animation: grade 20s linear infinite;
+                  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 25% 45%, #000 15%, transparent 78%);
+                          mask-image: radial-gradient(ellipse 75% 65% at 25% 45%, #000 15%, transparent 78%); }
+    @keyframes grade { to { background-position: 56px 56px; } }
+    /* Brilho que segue o mouse nos cartões */
+    .brilho:hover { background-image: radial-gradient(280px circle at var(--x, 50%) var(--y, 50%), rgba(254,61,125,.08), transparent 70%); }
+    /* Reflexo passando no botão principal */
+    .reflexo { position: relative; overflow: hidden; isolation: isolate; }
+    .reflexo::after { content: ''; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; z-index: -1; pointer-events: none;
+                      background: linear-gradient(100deg, transparent, rgba(255,255,255,.38), transparent); transform: skewX(-20deg);
+                      animation: reflexo 5s ease-in-out 1.8s infinite; }
+    @keyframes reflexo { 0%, 62% { left: -60%; } 100% { left: 135%; } }
+    /* Faixa com os serviços passando (para quando o mouse está em cima) */
+    .letreiro { display: flex; width: max-content; animation: correr 48s linear infinite; }
+    .letreiro-caixa:hover .letreiro { animation-play-state: paused; }
+    @keyframes correr { to { transform: translateX(-50%); } }
+    /* Selos que flutuam devagar */
+    .flutuar { animation: flutuar 6s ease-in-out infinite; }
+    @keyframes flutuar { 50% { transform: translateY(-9px); } }
+    /* O anel cinza da logo da Select se desenhando em volta da foto */
+    .anel-select circle { stroke-dasharray: 100; stroke-dashoffset: 100; transform-box: view-box; transform-origin: 50px 50px; transform: rotate(-90deg);
+                          animation: anel 1.8s cubic-bezier(.65,0,.35,1) .2s forwards; }
+    @keyframes anel { to { stroke-dashoffset: 0; } }
+    /* "Candidatos" girando em volta da foto: os cor-de-rosa com ✓ são os escolhidos */
+    .orbita { animation: girar 60s linear infinite; }
+    .orbita > span { position: absolute; transform: translate(-50%, -50%); }
+    .orbita > span > span { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%;
+                            animation: girar 60s linear infinite reverse, aparecer .6s cubic-bezier(.34,1.56,.64,1) var(--d, 1s) both; }
+    .orbita .candidato > span { background: #fff; color: #868585; border: 2px solid #EBF0FA; box-shadow: 0 6px 18px rgba(61,92,163,.15); }
+    .orbita .escolhido > span { background: linear-gradient(100deg, #FE3D7D, #FF4351); color: #fff;
+                                animation: girar 60s linear infinite reverse, aparecer .6s cubic-bezier(.34,1.56,.64,1) var(--d, 1.6s) both,
+                                           pulsar 2.4s ease-out calc(var(--d, 1.6s) + .6s) infinite; }
+    @keyframes girar { to { transform: rotate(360deg); } }
+    @keyframes aparecer { from { opacity: 0; scale: .3; } }
+    @keyframes pulsar { from { box-shadow: 0 0 0 0 rgba(254,61,125,.5); } to { box-shadow: 0 0 0 18px rgba(254,61,125,0); } }
+    /* Pontinhos de fundo: visual de tecnologia no fundo claro */
+    .pontos-tech { background-image: radial-gradient(rgba(92,127,201,.22) 1.2px, transparent 1.4px); background-size: 26px 26px;
+                   -webkit-mask-image: radial-gradient(ellipse 60% 70% at 75% 50%, #000 15%, transparent 72%);
+                           mask-image: radial-gradient(ellipse 60% 70% at 75% 50%, #000 15%, transparent 72%); }
+    /* O degradê do título brilhando devagar */
+    .linha-titulo > span.degrade-vivo { background-image: linear-gradient(100deg, #FE3D7D, #FF4351 35%, #FE3D7D 70%, #FF4351); background-size: 220% auto;
+                                        animation: subir 1s cubic-bezier(.16,1,.3,1) .25s forwards, degrade 5s ease-in-out 1.4s infinite alternate; }
+    @keyframes degrade { to { background-position: 100% 50%; } }
+    /* Linha ligando as 5 etapas da seleção (telas grandes) e números que "saltam" */
+    @media (min-width: 1024px) {
+      .trilha::before { content: ''; position: absolute; left: 4%; right: 4%; top: 44px; height: 3px; border-radius: 3px;
+                        background: linear-gradient(90deg, #FE3D7D, #FF4351, #5C7FC9); transform: scaleX(0); transform-origin: left;
+                        transition: transform 1.6s cubic-bezier(.65,0,.35,1) .3s; }
+      .trilha.visivel::before, .trilha:not([data-revelar])::before { transform: scaleX(1); }
+      .trilha > li { position: relative; z-index: 1; }
+    }
+    .trilha > li > span:first-child { transition: transform .55s cubic-bezier(.34,1.56,.64,1) calc(var(--atraso, 0s) + .25s); }
+    .trilha > li[data-revelar]:not(.visivel) > span:first-child { transform: scale(.35); }
+
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } #progresso { display: none; } html [data-revelar], .linha-titulo > span { opacity: 1 !important; transform: none !important; } .anel-select circle { stroke-dashoffset: 0; } .orbita > span > span { opacity: 1; scale: 1; } .trilha > li > span:first-child { transform: none !important; } }
+
+    /* ===== Menu do celular: três barrinhas que viram um X ===== */
+    .hamburguer { position: relative; display: inline-block; width: 22px; height: 16px; }
+    .hamburguer span { position: absolute; left: 0; width: 100%; height: 2.5px; border-radius: 2px; background: currentColor;
+                       transition: transform .3s ease, opacity .2s ease, top .3s ease; }
+    .hamburguer span:nth-child(1) { top: 0; }
+    .hamburguer span:nth-child(2) { top: 6.75px; }
+    .hamburguer span:nth-child(3) { top: 13.5px; }
+    [aria-expanded="true"] .hamburguer span:nth-child(1) { top: 6.75px; transform: rotate(45deg); }
+    [aria-expanded="true"] .hamburguer span:nth-child(2) { opacity: 0; }
+    [aria-expanded="true"] .hamburguer span:nth-child(3) { top: 6.75px; transform: rotate(-45deg); }
+    .menu-celular { position: absolute; left: 0; right: 0; top: 100%; max-height: calc(100vh - 100%); max-height: calc(100dvh - 100%);
+                    overflow-y: auto; overscroll-behavior: contain; animation: descer .28s cubic-bezier(.16,1,.3,1); }
+    .menu-celular[hidden], #menu-fundo[hidden] { display: none; }
+    @keyframes descer { from { opacity: 0; transform: translateY(-10px); } }
+    .item-menu { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px; border-radius: 10px;
+                 transition: background-color .2s, color .2s; }
+    .item-menu svg { width: 18px; height: 18px; flex: none; opacity: .55; }
+    .item-menu { color: #3D5CA3; font-family: Nunito, sans-serif; font-weight: 800; font-size: 16px; } .item-menu:hover { background: #F6F7FC; } .item-menu.ativo { background: #FFEAF1; color: #C8174F; }
+
+    /* Botão flutuante do WhatsApp (só aparece quando o número está preenchido) */
+    #botao-whatsapp { position: fixed; right: 20px; bottom: 20px; z-index: 30; width: 60px; height: 60px; border-radius: 50%;
+                      display: flex; align-items: center; justify-content: center; background: #25D366; color: #fff;
+                      box-shadow: 0 10px 25px rgba(0,0,0,.25); transition: transform .2s ease; }
+    #botao-whatsapp:hover { transform: scale(1.08); }
+    #botao-whatsapp[hidden] { display: none; }
+    #botao-whatsapp::before { content: ''; position: absolute; inset: 0; border-radius: 50%; background: #25D366; z-index: -1; animation: onda-whats 2.4s ease-out infinite; }
+    @keyframes onda-whats { from { transform: scale(1); opacity: .5; } to { transform: scale(1.6); opacity: 0; } }
+    @media print { #botao-whatsapp { display: none; } }
+  </style>
+</head>
+<body class="bg-fundo text-slate-700 font-sans min-h-screen flex flex-col">
+  <div id="progresso" aria-hidden="true"></div>
+
+  <!-- Faixa de contato -->
+  <div class="bg-azul-claro text-azul-texto text-[12px] font-bold py-2 px-6">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+        <a data-cfg-href="tel" class="flex items-center gap-1.5 hover:text-rosa-escuro transition-colors"><i data-lucide="phone" class="w-3.5 h-3.5 text-rosa"></i> <span data-cfg="telefone"></span></a>
+        <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5 text-rosa"></i> <span data-cfg="horario"></span></span>
+        <span class="hidden md:flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-rosa"></i> <span data-cfg="cidade"></span></span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="#denuncia" class="hover:text-rosa-escuro transition-colors">Canal Ético</a>
+        <span class="text-azul/40">|</span>
+        <a href="#transparencia" class="hover:text-rosa-escuro transition-colors">Transparência</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Topo e navegação -->
+  <header class="sticky top-0 z-50 glass-header border-b border-slate-200/70">
+    <div class="max-w-7xl mx-auto px-6 h-16 lg:h-20 flex flex-nowrap items-center justify-between gap-x-4">
+      <a href="#inicio" class="flex-shrink-0" aria-label="Select - início">
+        <img src="img/logo.png" alt="Select" class="h-10 sm:h-11 w-auto">
+      </a>
+
+      <nav class="hidden lg:block lg:flex-1 min-w-0" aria-label="Seções do site">
+        <div class="flex items-center w-max xl:mx-auto gap-6 xl:gap-6 font-titulo text-[14px] font-extrabold text-slate-500 whitespace-nowrap px-2">
+          <a href="#inicio" class="nav-btn py-3.5 lg:py-7 transition-colors hover:text-azul-texto" data-tab="inicio">Início</a>
+          <a href="#servicos" class="nav-btn py-3.5 lg:py-7 transition-colors hover:text-azul-texto" data-tab="servicos">Serviços</a>
+          <a href="#contrate" class="nav-btn py-3.5 lg:py-7 transition-colors hover:text-azul-texto" data-tab="contrate">Contrate</a>
+          <a href="#vagas" class="nav-btn py-3.5 lg:py-7 transition-colors hover:text-azul-texto" data-tab="vagas">Trabalhe conosco</a>
+          <a href="#transparencia" class="nav-btn py-3.5 lg:py-7 transition-colors hover:text-azul-texto" data-tab="transparencia">Transparência</a>
+          <a href="#denuncia" class="nav-btn py-3.5 lg:py-7 transition-colors hover:text-azul-texto" data-tab="denuncia">Canal Ético</a>
+          <a href="#colaborador" class="nav-btn py-3.5 lg:py-7 transition-colors hover:text-azul-texto" data-tab="colaborador">Colaborador</a>
+        </div>
+      </nav>
+
+      <div class="flex items-center gap-2 shrink-0">
+        <a data-portal="portal.html" class="flex-shrink-0 px-4 sm:px-5 py-2.5 rounded-full text-[13px] font-titulo font-extrabold grad text-white shadow-lg shadow-rose-500/30 hover:brightness-105 transition flex items-center gap-2">
+          <i data-lucide="heart-handshake" class="w-4 h-4"></i>
+          <span class="hidden 2xl:inline">Portal do Colaborador</span><span class="2xl:hidden">Portal</span>
+        </a>
+        <button type="button" id="menu-botao" class="lg:hidden w-11 h-11 rounded-lg flex items-center justify-center text-azul-texto hover:bg-azul-claro transition-colors" aria-label="Abrir o menu" aria-expanded="false" aria-controls="menu-celular"><span class="hamburguer" aria-hidden="true"><span></span><span></span><span></span></span></button>
+      </div>
+    </div>
+    <!-- Menu do celular (abre pelas três barrinhas) -->
+    <div id="menu-celular" class="menu-celular lg:hidden bg-white border-b border-slate-200 shadow-xl" hidden>
+      <nav class="max-w-7xl mx-auto px-4 py-3" aria-label="Menu do site">
+        <ul id="menu-celular-lista" class="grid gap-1"></ul>
+        <div class="mt-3 mb-2 pt-4 border-t border-slate-200 grid gap-3 px-2">
+          <a data-portal="portal.html" class="px-5 py-3.5 rounded-full grad text-white font-titulo font-extrabold flex items-center justify-center gap-2"><i data-lucide="heart-handshake" class="w-4 h-4"></i> Portal do Colaborador</a>
+          <a data-cfg-href="tel" class="flex items-center justify-center gap-2 py-2 text-sm font-bold text-azul-texto"><i data-lucide="phone" class="w-4 h-4 text-rosa"></i> <span data-cfg="telefone"></span></a>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <div id="menu-fundo" class="fixed inset-0 z-40 bg-azul-escuro/30 lg:hidden" hidden></div>
+
+  <div class="flex-1 flex flex-col">
+
+    <!-- ==================== 1. INÍCIO ==================== -->
+    <main id="tab-inicio" class="tab-content active flex-1">
+      <section class="relative overflow-hidden bg-gradient-to-b from-white to-fundo">
+        <div class="absolute inset-0 pontos-tech pointer-events-none" aria-hidden="true"></div>
+        <div class="absolute -top-24 -left-24 w-72 h-72 rounded-full border-[18px] border-azul/10 pointer-events-none" aria-hidden="true"></div>
+        <div class="flutuar absolute bottom-10 left-[45%] w-24 h-24 rounded-full border-[10px] border-rosa/15 pointer-events-none hidden lg:block" aria-hidden="true"></div>
+
+        <div class="relative max-w-7xl mx-auto px-6 py-16 md:py-24 grid lg:grid-cols-2 gap-14 items-center">
+          <div>
+            <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rosa-claro text-rosa-escuro text-xs font-extrabold font-titulo surgir">
+              <i data-lucide="heart" class="w-4 h-4"></i> Terceirização de mão de obra
+            </span>
+            <h1 class="mt-6 font-titulo text-4xl sm:text-5xl md:text-6xl font-black text-azul-escuro tracking-tight leading-[1.05]">
+              <span class="linha-titulo"><span>Pessoas certas,</span></span>
+              <span class="linha-titulo"><span class="grad-texto degrade-vivo">cuidadas de verdade.</span></span>
+            </h1>
+            <p class="mt-6 text-lg text-slate-600 leading-relaxed max-w-xl surgir" style="--atraso:.45s">
+              A gente escolhe cada profissional com critério, acompanha de perto e cuida de toda a parte trabalhista. Você recebe uma equipe preparada e motivada.
+            </p>
+            <div class="mt-9 flex flex-col sm:flex-row gap-3 surgir" style="--atraso:.6s">
+              <a href="#contrate" class="reflexo px-8 py-4 grad text-white font-titulo font-extrabold rounded-full shadow-xl shadow-rose-500/30 hover:brightness-105 transition flex items-center justify-center gap-2 whitespace-nowrap">
+                Quero um orçamento <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </a>
+              <a href="#servicos" class="px-8 py-4 border-2 border-azul text-azul-texto hover:bg-azul hover:text-white font-titulo font-extrabold rounded-full transition flex items-center justify-center gap-2 whitespace-nowrap">
+                Ver serviços
+              </a>
+            </div>
+          </div>
+
+          <div class="relative mx-auto w-full max-w-md lg:max-w-lg">
+            <!-- O anel da logo se desenhando em volta da foto -->
+            <svg class="anel-select absolute inset-0 translate-x-4 translate-y-4 w-full h-full overflow-visible" viewBox="0 0 100 100" aria-hidden="true">
+              <circle cx="50" cy="50" r="48.5" fill="none" stroke="#868585" stroke-opacity=".45" stroke-width="3" pathLength="100"/>
+            </svg>
+            <div class="relative aspect-square rounded-full overflow-hidden border-[10px] border-white shadow-2xl shadow-azul/20">
+              <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=75&w=1100&auto=format&fit=crop" alt="Colegas de trabalho comemorando juntos" class="w-full h-full object-cover">
+            </div>
+            <!-- "Candidatos" girando em volta: os cor-de-rosa com ✓ são os selecionados -->
+            <div class="orbita absolute -inset-[6%] pointer-events-none hidden sm:block" aria-hidden="true">
+              <span class="candidato" style="left:50%;top:0%;--d:1.0s"><span><i data-lucide="user" class="w-4 h-4"></i></span></span>
+              <span class="escolhido" style="left:85.36%;top:14.64%;--d:1.7s"><span><i data-lucide="check" class="w-4 h-4"></i></span></span>
+              <span class="candidato" style="left:100%;top:50%;--d:1.1s"><span><i data-lucide="user" class="w-4 h-4"></i></span></span>
+              <span class="candidato" style="left:85.36%;top:85.36%;--d:1.2s"><span><i data-lucide="user" class="w-4 h-4"></i></span></span>
+              <span class="escolhido" style="left:50%;top:100%;--d:1.95s"><span><i data-lucide="check" class="w-4 h-4"></i></span></span>
+              <span class="candidato" style="left:0%;top:50%;--d:1.3s"><span><i data-lucide="user" class="w-4 h-4"></i></span></span>
+              <span class="escolhido" style="left:14.64%;top:14.64%;--d:2.2s"><span><i data-lucide="check" class="w-4 h-4"></i></span></span>
+            </div>
+            <div class="absolute -bottom-4 -left-2 sm:left-0 bg-white rounded-3xl shadow-xl shadow-slate-300/50 px-5 py-4 flex items-center gap-3 surgir" style="--atraso:1.4s">
+              <span class="w-11 h-11 rounded-full grad text-white flex items-center justify-center"><i data-lucide="badge-check" class="w-5 h-5"></i></span>
+              <span class="font-titulo font-extrabold text-azul-escuro leading-tight">Seleção criteriosa<br><span class="text-sm font-bold text-slate-500">e acompanhamento</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Números: contam sozinhos quando aparecem na tela -->
+      <section class="max-w-7xl mx-auto px-6 pt-6 w-full">
+        <div class="rounded-[2rem] overflow-hidden shadow-xl shadow-slate-200/50 grid grid-cols-2 lg:grid-cols-4 gap-px bg-slate-100" data-revelar-grupo>
+          <div class="bg-white p-7 text-center"><span class="font-titulo text-5xl font-black grad-texto" data-contar="5">5</span><span class="block mt-1 text-sm font-bold text-slate-500">etapas na seleção</span></div>
+          <div class="bg-white p-7 text-center"><span class="font-titulo text-5xl font-black text-azul-escuro" data-contar="8" data-qtd-servicos>8</span><span class="block mt-1 text-sm font-bold text-slate-500">serviços de mão de obra</span></div>
+          <div class="bg-white p-7 text-center"><span class="font-titulo text-5xl font-black grad-texto" data-contar="7">7</span><span class="block mt-1 text-sm font-bold text-slate-500">segmentos atendidos</span></div>
+          <div class="bg-white p-7 text-center"><span class="font-titulo text-5xl font-black text-azul-escuro" data-contar="100" data-sufixo="%">100%</span><span class="block mt-1 text-sm font-bold text-slate-500">com carteira assinada</span></div>
+        </div>
+      </section>
+
+      <!-- Faixa com os serviços passando -->
+      <div class="letreiro-caixa mt-14 overflow-hidden py-5 bg-gradient-to-r from-azul to-azul-escuro" aria-hidden="true">
+        <div class="letreiro font-titulo font-black text-white/90 text-base sm:text-lg" id="letreiro"></div>
+      </div>
+
+      <!-- Como escolhemos cada profissional -->
+      <section class="max-w-7xl mx-auto px-6 py-20 w-full">
+        <div class="max-w-2xl" data-revelar>
+          <p class="font-titulo font-extrabold text-rosa-escuro">O jeito Select de selecionar</p>
+          <h2 class="mt-2 font-titulo text-3xl md:text-4xl font-black text-azul-escuro leading-tight">Ninguém chega na sua empresa por acaso.</h2>
+          <p class="mt-4 text-slate-600 text-lg leading-relaxed">Antes de alguém vestir o nosso uniforme, passa por um processo cuidadoso. É assim que a gente garante gente boa no seu dia a dia.</p>
+        </div>
+        <ol class="trilha relative mt-12 grid sm:grid-cols-2 lg:grid-cols-5 gap-4" data-revelar data-revelar-grupo>
+          <li class="bg-white rounded-3xl p-6 shadow-lg shadow-slate-200/50"><span class="w-10 h-10 rounded-full grad text-white font-titulo font-black flex items-center justify-center">1</span><h3 class="mt-4 font-titulo font-black text-azul-escuro">Triagem</h3><p class="mt-1 text-sm text-slate-600">Analisamos o perfil e a experiência para a função.</p></li>
+          <li class="bg-white rounded-3xl p-6 shadow-lg shadow-slate-200/50"><span class="w-10 h-10 rounded-full grad text-white font-titulo font-black flex items-center justify-center">2</span><h3 class="mt-4 font-titulo font-black text-azul-escuro">Entrevista</h3><p class="mt-1 text-sm text-slate-600">Conversa olho no olho para conhecer a pessoa.</p></li>
+          <li class="bg-white rounded-3xl p-6 shadow-lg shadow-slate-200/50"><span class="w-10 h-10 rounded-full grad text-white font-titulo font-black flex items-center justify-center">3</span><h3 class="mt-4 font-titulo font-black text-azul-escuro">Referências</h3><p class="mt-1 text-sm text-slate-600">Checamos empregos anteriores e a documentação.</p></li>
+          <li class="bg-white rounded-3xl p-6 shadow-lg shadow-slate-200/50"><span class="w-10 h-10 rounded-full grad text-white font-titulo font-black flex items-center justify-center">4</span><h3 class="mt-4 font-titulo font-black text-azul-escuro">Integração</h3><p class="mt-1 text-sm text-slate-600">Treinamento da função, normas e jeito de atender.</p></li>
+          <li class="bg-white rounded-3xl p-6 shadow-lg shadow-slate-200/50"><span class="w-10 h-10 rounded-full grad text-white font-titulo font-black flex items-center justify-center">5</span><h3 class="mt-4 font-titulo font-black text-azul-escuro">Acompanhamento</h3><p class="mt-1 text-sm text-slate-600">Seguimos perto depois que a pessoa começa.</p></li>
+        </ol>
+      </section>
+
+      <!-- Serviços em destaque -->
+      <section class="bg-white">
+        <div class="max-w-7xl mx-auto px-6 py-20">
+          <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10" data-revelar>
+            <div class="max-w-2xl">
+              <p class="font-titulo font-extrabold text-rosa-escuro">Nossos serviços</p>
+              <h2 class="mt-2 font-titulo text-3xl md:text-4xl font-black text-azul-escuro leading-tight">Profissionais para as funções que mantêm a sua empresa funcionando.</h2>
+            </div>
+            <a href="#servicos" class="font-titulo font-extrabold text-azul-texto hover:text-rosa-escuro flex items-center gap-2 shrink-0">Ver todos <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+          </div>
+          <div id="servicos-destaque" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" data-revelar-grupo></div>
+        </div>
+      </section>
+
+      <!-- Bom para a empresa, bom para quem trabalha -->
+      <section class="max-w-7xl mx-auto px-6 py-20 w-full">
+        <div class="text-center max-w-2xl mx-auto" data-revelar>
+          <p class="font-titulo font-extrabold text-rosa-escuro">Quando a equipe está bem, o serviço fica melhor</p>
+          <h2 class="mt-2 font-titulo text-3xl md:text-4xl font-black text-azul-escuro leading-tight">Bom para a sua empresa. Bom para quem trabalha.</h2>
+        </div>
+        <div class="mt-12 grid md:grid-cols-2 gap-6" data-revelar-grupo>
+          <div class="bg-white rounded-3xl p-9 shadow-xl shadow-slate-200/50">
+            <span class="w-14 h-14 rounded-2xl bg-azul-claro text-azul-texto flex items-center justify-center"><i data-lucide="building-2" class="w-7 h-7"></i></span>
+            <h3 class="mt-6 font-titulo text-2xl font-black text-azul-escuro">Para a sua empresa</h3>
+            <ul class="mt-5 space-y-3 text-slate-600">
+              <li class="flex gap-3"><i data-lucide="check" class="w-5 h-5 text-rosa shrink-0 mt-0.5"></i>Equipe selecionada para o perfil da sua operação</li>
+              <li class="flex gap-3"><i data-lucide="check" class="w-5 h-5 text-rosa shrink-0 mt-0.5"></i>Nada de folha, encargos ou rescisões: uma fatura só</li>
+              <li class="flex gap-3"><i data-lucide="check" class="w-5 h-5 text-rosa shrink-0 mt-0.5"></i>Reposição quando alguém falta ou sai de férias</li>
+              <li class="flex gap-3"><i data-lucide="check" class="w-5 h-5 text-rosa shrink-0 mt-0.5"></i>Um contato direto na Select para resolver tudo</li>
+            </ul>
+          </div>
+          <div class="bg-white rounded-3xl p-9 shadow-xl shadow-slate-200/50 ring-2 ring-rosa/15">
+            <span class="w-14 h-14 rounded-2xl bg-rosa-claro text-rosa-escuro flex items-center justify-center"><i data-lucide="hand-heart" class="w-7 h-7"></i></span>
+            <h3 class="mt-6 font-titulo text-2xl font-black text-azul-escuro">Para o colaborador</h3>
+            <ul class="mt-5 space-y-3 text-slate-600">
+              <li class="flex gap-3"><i data-lucide="heart" class="w-5 h-5 text-rosa shrink-0 mt-0.5"></i>Carteira assinada e direitos em dia</li>
+              <li class="flex gap-3"><i data-lucide="heart" class="w-5 h-5 text-rosa shrink-0 mt-0.5"></i>Treinamento antes de começar</li>
+              <li class="flex gap-3"><i data-lucide="heart" class="w-5 h-5 text-rosa shrink-0 mt-0.5"></i>Acompanhamento e espaço para ser ouvido</li>
+              <li class="flex gap-3"><i data-lucide="heart" class="w-5 h-5 text-rosa shrink-0 mt-0.5"></i>Portal do Colaborador e Ouvidoria pelo celular</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Segmentos + quem somos -->
+      <section class="max-w-7xl mx-auto px-6 pb-20 w-full grid lg:grid-cols-12 gap-10 items-start" data-revelar-grupo>
+        <div class="lg:col-span-7">
+          <p class="font-titulo font-extrabold text-rosa-escuro">Quem somos</p>
+          <h2 class="mt-2 font-titulo text-3xl font-black text-azul-escuro leading-tight">A gente escolhe com critério e cuida com carinho.</h2>
+          <p class="mt-5 text-slate-600 text-lg leading-relaxed">A Select é uma empresa de terceirização de mão de obra que coloca as pessoas no centro. <strong class="text-azul-texto">Missão:</strong> conectar empresas aos profissionais certos e cuidar dessas pessoas. <strong class="text-azul-texto">Visão:</strong> ser lembrada como a terceirizada que trata cada colaborador como gente, e não como número.</p>
+          <ul class="mt-6 flex flex-wrap gap-3 font-titulo font-extrabold text-sm" aria-label="Nossos valores">
+            <li class="px-5 py-2.5 rounded-full bg-white shadow-sm flex items-center gap-2 text-azul-texto"><i data-lucide="heart" class="w-4 h-4 text-rosa"></i>Respeito</li>
+            <li class="px-5 py-2.5 rounded-full bg-white shadow-sm flex items-center gap-2 text-azul-texto"><i data-lucide="heart" class="w-4 h-4 text-rosa"></i>Ética</li>
+            <li class="px-5 py-2.5 rounded-full bg-white shadow-sm flex items-center gap-2 text-azul-texto"><i data-lucide="heart" class="w-4 h-4 text-rosa"></i>Escuta ativa</li>
+            <li class="px-5 py-2.5 rounded-full bg-white shadow-sm flex items-center gap-2 text-azul-texto"><i data-lucide="heart" class="w-4 h-4 text-rosa"></i>Compromisso</li>
+          </ul>
+        </div>
+        <div class="lg:col-span-5 bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50">
+          <h3 class="font-titulo text-xl font-black text-azul-escuro">Onde a Select está presente</h3>
+          <ul class="mt-5 flex flex-wrap gap-2 text-sm font-bold text-azul-texto">
+            <li class="px-4 py-2 rounded-full bg-azul-claro flex items-center gap-2"><i data-lucide="building" class="w-4 h-4"></i>Condomínios</li>
+            <li class="px-4 py-2 rounded-full bg-azul-claro flex items-center gap-2"><i data-lucide="briefcase-business" class="w-4 h-4"></i>Escritórios</li>
+            <li class="px-4 py-2 rounded-full bg-azul-claro flex items-center gap-2"><i data-lucide="stethoscope" class="w-4 h-4"></i>Clínicas</li>
+            <li class="px-4 py-2 rounded-full bg-azul-claro flex items-center gap-2"><i data-lucide="school" class="w-4 h-4"></i>Escolas</li>
+            <li class="px-4 py-2 rounded-full bg-azul-claro flex items-center gap-2"><i data-lucide="shopping-bag" class="w-4 h-4"></i>Lojas e shoppings</li>
+            <li class="px-4 py-2 rounded-full bg-azul-claro flex items-center gap-2"><i data-lucide="hotel" class="w-4 h-4"></i>Hotéis</li>
+            <li class="px-4 py-2 rounded-full bg-azul-claro flex items-center gap-2"><i data-lucide="factory" class="w-4 h-4"></i>Indústrias</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Portal do Colaborador -->
+      <section class="max-w-7xl mx-auto px-6 pb-20 w-full">
+        <div class="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-azul to-azul-escuro p-9 md:p-12 grid md:grid-cols-12 gap-8 items-center" data-revelar>
+          <div class="flutuar absolute -right-16 -bottom-16 w-64 h-64 rounded-full border-[22px] border-white/10" aria-hidden="true"></div>
+          <div class="relative md:col-span-7">
+            <p class="font-titulo font-extrabold text-rosa-claro">Para quem já faz parte</p>
+            <h2 class="mt-1 font-titulo text-3xl font-black text-white">Portal do Colaborador</h2>
+            <p class="mt-3 text-blue-50/90 leading-relaxed">Envie atestados, leia os comunicados do RH, mantenha seus dados em dia e fale com a Ouvidoria, tudo pelo celular.</p>
+          </div>
+          <div class="relative md:col-span-5 flex flex-col sm:flex-row md:justify-end gap-3">
+            <a data-portal="portal.html" class="px-7 py-4 grad text-white font-titulo font-extrabold rounded-full shadow-lg shadow-rose-900/20 hover:brightness-105 transition flex items-center justify-center gap-2 whitespace-nowrap"><i data-lucide="log-in" class="w-4 h-4"></i> Acessar o portal</a>
+            <a href="#colaborador" class="px-7 py-4 bg-white/10 hover:bg-white/20 text-white font-titulo font-extrabold rounded-full transition text-center whitespace-nowrap">Saiba mais</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==================== 2. SERVIÇOS ==================== -->
+    <main id="tab-servicos" class="tab-content flex-1 w-full">
+      <section class="max-w-7xl mx-auto px-6 pt-16 pb-10">
+        <p class="font-titulo font-extrabold text-rosa-escuro">Serviços</p>
+        <h1 class="mt-1 font-titulo text-4xl md:text-5xl font-black text-azul-escuro tracking-tight max-w-3xl">Gente preparada para cada função.</h1>
+        <p class="text-slate-600 text-lg mt-4 max-w-2xl leading-relaxed">Escolha as funções que a sua empresa precisa. Montamos a equipe, cuidamos da contratação e acompanhamos o trabalho todo mês.</p>
+      </section>
+
+      <section class="max-w-7xl mx-auto px-6 pb-16">
+        <div id="servicos-lista" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" data-revelar-grupo></div>
+      </section>
+
+      <section class="max-w-7xl mx-auto px-6 pb-16 w-full">
+        <div class="rounded-[2rem] bg-white shadow-xl shadow-slate-200/50 p-9 md:p-12 grid lg:grid-cols-12 gap-10">
+          <div class="lg:col-span-4">
+            <p class="font-titulo font-extrabold text-rosa-escuro">Tudo incluso</p>
+            <h2 class="mt-1 font-titulo text-3xl font-black text-azul-escuro">Você não se preocupa com nada disso:</h2>
+          </div>
+          <ul class="lg:col-span-8 grid sm:grid-cols-2 gap-4 text-slate-600">
+            <li class="flex gap-3 items-start"><span class="w-9 h-9 rounded-full bg-rosa-claro text-rosa-escuro flex items-center justify-center shrink-0"><i data-lucide="user-search" class="w-4 h-4"></i></span><span class="pt-1.5">Recrutamento, seleção e contratação</span></li>
+            <li class="flex gap-3 items-start"><span class="w-9 h-9 rounded-full bg-azul-claro text-azul-texto flex items-center justify-center shrink-0"><i data-lucide="wallet" class="w-4 h-4"></i></span><span class="pt-1.5">Salários, encargos, férias e 13º</span></li>
+            <li class="flex gap-3 items-start"><span class="w-9 h-9 rounded-full bg-rosa-claro text-rosa-escuro flex items-center justify-center shrink-0"><i data-lucide="shirt" class="w-4 h-4"></i></span><span class="pt-1.5">Uniformes e equipamentos de proteção</span></li>
+            <li class="flex gap-3 items-start"><span class="w-9 h-9 rounded-full bg-azul-claro text-azul-texto flex items-center justify-center shrink-0"><i data-lucide="repeat" class="w-4 h-4"></i></span><span class="pt-1.5">Reposição em faltas e férias</span></li>
+            <li class="flex gap-3 items-start"><span class="w-9 h-9 rounded-full bg-rosa-claro text-rosa-escuro flex items-center justify-center shrink-0"><i data-lucide="graduation-cap" class="w-4 h-4"></i></span><span class="pt-1.5">Treinamento e reciclagem</span></li>
+            <li class="flex gap-3 items-start"><span class="w-9 h-9 rounded-full bg-azul-claro text-azul-texto flex items-center justify-center shrink-0"><i data-lucide="messages-square" class="w-4 h-4"></i></span><span class="pt-1.5">Acompanhamento e conversa com a equipe</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="max-w-4xl mx-auto px-6 pb-16 w-full">
+        <p class="font-titulo font-extrabold text-rosa-escuro">Dúvidas</p>
+        <h2 class="mt-1 font-titulo text-3xl font-black text-azul-escuro mb-8">Perguntas frequentes</h2>
+        <div class="space-y-3">
+          <details class="bg-white rounded-3xl p-6 shadow-md shadow-slate-200/40"><summary class="flex justify-between items-center gap-4 font-titulo font-extrabold text-azul-escuro">Como vocês escolhem os profissionais?<i data-lucide="chevron-down" class="seta w-5 h-5 text-rosa shrink-0 transition-transform"></i></summary><p class="mt-3 text-slate-600 leading-relaxed">Cada pessoa passa por triagem, entrevista, checagem de referências e integração antes de começar. Depois, seguimos acompanhando o trabalho.</p></details>
+          <details class="bg-white rounded-3xl p-6 shadow-md shadow-slate-200/40"><summary class="flex justify-between items-center gap-4 font-titulo font-extrabold text-azul-escuro">Os profissionais são funcionários de quem?<i data-lucide="chevron-down" class="seta w-5 h-5 text-rosa shrink-0 transition-transform"></i></summary><p class="mt-3 text-slate-600 leading-relaxed">Da Select, com carteira assinada. Pagamos salário, encargos e benefícios. A sua empresa paga uma fatura mensal pelo serviço.</p></details>
+          <details class="bg-white rounded-3xl p-6 shadow-md shadow-slate-200/40"><summary class="flex justify-between items-center gap-4 font-titulo font-extrabold text-azul-escuro">E se eu não me adaptar a alguém da equipe?<i data-lucide="chevron-down" class="seta w-5 h-5 text-rosa shrink-0 transition-transform"></i></summary><p class="mt-3 text-slate-600 leading-relaxed">Fale com a gente. Conversamos com você e com o colaborador e, se for o melhor para todos, fazemos a substituição.</p></details>
+          <details class="bg-white rounded-3xl p-6 shadow-md shadow-slate-200/40"><summary class="flex justify-between items-center gap-4 font-titulo font-extrabold text-azul-escuro">Vocês também recrutam para o meu quadro próprio?<i data-lucide="chevron-down" class="seta w-5 h-5 text-rosa shrink-0 transition-transform"></i></summary><p class="mt-3 text-slate-600 leading-relaxed">Sim. No serviço de Recrutamento e seleção, encontramos o profissional e você contrata direto pela sua empresa.</p></details>
+          <details class="bg-white rounded-3xl p-6 shadow-md shadow-slate-200/40"><summary class="flex justify-between items-center gap-4 font-titulo font-extrabold text-azul-escuro">Precisa de contrato longo?<i data-lucide="chevron-down" class="seta w-5 h-5 text-rosa shrink-0 transition-transform"></i></summary><p class="mt-3 text-slate-600 leading-relaxed">As condições são combinadas na proposta, de acordo com o tamanho e o tipo do serviço. Peça um orçamento e a gente explica tudo.</p></details>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==================== 3. CONTRATE ==================== -->
+    <main id="tab-contrate" class="tab-content flex-1 max-w-7xl mx-auto px-6 py-16 w-full">
+      <div class="mb-10 max-w-3xl">
+        <p class="font-titulo font-extrabold text-rosa-escuro">Contrate a Select</p>
+        <h1 class="mt-1 font-titulo text-4xl font-black text-azul-escuro tracking-tight">Vamos montar a sua equipe?</h1>
+        <p class="text-slate-500 text-lg mt-2">Conte o que você precisa. A gente responde rapidinho, sem compromisso.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <div class="lg:col-span-8">
+          <form id="form-orcamento" class="relative bg-white p-7 sm:p-10 rounded-3xl shadow-xl shadow-slate-200/60 space-y-6" novalidate>
+            <div class="absolute -left-[9999px]" aria-hidden="true"><label>Não preencha<input type="text" name="site" tabindex="-1" autocomplete="off"></label></div>
+
+            <fieldset>
+              <legend class="text-sm font-bold text-slate-600 mb-3">Quais profissionais você procura? *</legend>
+              <div id="opcoes-servicos" class="flex flex-wrap gap-2"></div>
+            </fieldset>
+
+            <div class="grid sm:grid-cols-2 gap-5">
+              <div><label for="o-nome" class="block text-sm font-bold text-slate-600 mb-2">Seu nome *</label><input id="o-nome" type="text" required autocomplete="name" maxlength="150" class="w-full px-5 py-3.5 bg-fundo border-2 border-transparent rounded-2xl focus:bg-white focus:border-azul outline-none transition"></div>
+              <div><label for="o-empresa" class="block text-sm font-bold text-slate-600 mb-2">Empresa ou condomínio</label><input id="o-empresa" type="text" autocomplete="organization" maxlength="150" class="w-full px-5 py-3.5 bg-fundo border-2 border-transparent rounded-2xl focus:bg-white focus:border-azul outline-none transition"></div>
+              <div><label for="o-telefone" class="block text-sm font-bold text-slate-600 mb-2">Telefone / WhatsApp *</label><input id="o-telefone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(85) 99999-9999" maxlength="15" class="w-full px-5 py-3.5 bg-fundo border-2 border-transparent rounded-2xl focus:bg-white focus:border-azul outline-none transition"></div>
+              <div><label for="o-email" class="block text-sm font-bold text-slate-600 mb-2">E-mail</label><input id="o-email" type="email" autocomplete="email" maxlength="255" class="w-full px-5 py-3.5 bg-fundo border-2 border-transparent rounded-2xl focus:bg-white focus:border-azul outline-none transition"></div>
+              <div><label for="o-cidade" class="block text-sm font-bold text-slate-600 mb-2">Cidade</label><input id="o-cidade" type="text" autocomplete="address-level2" maxlength="100" class="w-full px-5 py-3.5 bg-fundo border-2 border-transparent rounded-2xl focus:bg-white focus:border-azul outline-none transition"></div>
+              <div class="grid grid-cols-2 gap-3">
+                <div><label for="o-qtd" class="block text-sm font-bold text-slate-600 mb-2">Profissionais</label><input id="o-qtd" type="number" min="1" max="5000" inputmode="numeric" placeholder="Ex.: 3" class="w-full px-5 py-3.5 bg-fundo border-2 border-transparent rounded-2xl focus:bg-white focus:border-azul outline-none transition"></div>
+                <div><label for="o-cnpj" class="block text-sm font-bold text-slate-600 mb-2">CNPJ</label><input id="o-cnpj" type="text" inputmode="numeric" placeholder="Opcional" maxlength="18" class="w-full px-5 py-3.5 bg-fundo border-2 border-transparent rounded-2xl focus:bg-white focus:border-azul outline-none transition"></div>
+              </div>
+            </div>
+            <div><label for="o-msg" class="block text-sm font-bold text-slate-600 mb-2">Conte mais sobre a vaga ou a equipe</label><textarea id="o-msg" rows="4" maxlength="3000" placeholder="Ex.: 2 recepcionistas de segunda a sábado, das 8h às 18h." class="w-full px-5 py-3.5 bg-fundo border-2 border-transparent rounded-2xl focus:bg-white focus:border-azul outline-none transition resize-none"></textarea></div>
+
+            <div id="o-aviso" class="hidden" role="alert"></div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+              <button type="submit" id="o-enviar" class="px-9 py-4 grad text-white font-titulo font-extrabold rounded-full shadow-lg shadow-rose-500/25 hover:brightness-105 transition flex items-center justify-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> Enviar pedido</button>
+              <p class="text-xs text-slate-500">* Obrigatório. Usamos seus dados só para responder o pedido.</p>
+            </div>
+          </form>
+
+          <div id="o-sucesso" class="hidden bg-white p-10 rounded-3xl shadow-xl shadow-slate-200/60 text-center">
+            <span class="w-16 h-16 mx-auto rounded-full grad text-white flex items-center justify-center"><i data-lucide="heart-handshake" class="w-8 h-8"></i></span>
+            <h2 class="mt-5 font-titulo text-2xl font-black text-azul-escuro">Pedido recebido!</h2>
+            <p class="mt-2 text-slate-600">Em breve alguém da Select fala com você. Seu protocolo:</p>
+            <p id="o-protocolo" class="mt-3 font-titulo text-2xl font-black grad-texto"></p>
+            <button type="button" id="o-novo" class="mt-7 px-7 py-3 border-2 border-azul text-azul-texto hover:bg-azul hover:text-white font-titulo font-extrabold rounded-full transition">Fazer outro pedido</button>
+          </div>
+        </div>
+
+        <aside class="lg:col-span-4 space-y-5">
+          <div class="rounded-3xl bg-gradient-to-br from-azul to-azul-escuro text-white p-7">
+            <h2 class="font-titulo font-black text-lg">Depois do pedido</h2>
+            <ol class="mt-5 space-y-4 text-sm text-blue-50/90">
+              <li class="flex gap-3"><span class="w-7 h-7 rounded-full bg-white/15 font-titulo font-black flex items-center justify-center shrink-0">1</span>A gente liga ou chama no WhatsApp para entender o perfil que você procura.</li>
+              <li class="flex gap-3"><span class="w-7 h-7 rounded-full bg-white/15 font-titulo font-black flex items-center justify-center shrink-0">2</span>Você recebe a proposta com as funções, os horários e o valor.</li>
+              <li class="flex gap-3"><span class="w-7 h-7 rounded-full bg-white/15 font-titulo font-black flex items-center justify-center shrink-0">3</span>Aprovou? Começamos a seleção da sua equipe.</li>
+            </ol>
+          </div>
+          <a data-cfg-href="tel" class="bg-white p-6 rounded-3xl shadow-lg shadow-slate-200/40 flex gap-4 hover:shadow-xl transition">
+            <span class="w-12 h-12 rounded-full bg-rosa-claro text-rosa-escuro flex items-center justify-center shrink-0"><i data-lucide="phone" class="w-5 h-5"></i></span>
+            <span><span class="block font-titulo font-black text-azul-escuro">Prefere ligar?</span><span class="block font-titulo font-black text-xl text-azul-escuro" data-cfg="telefone"></span><span class="block text-slate-500 text-sm" data-cfg="horario"></span></span>
+          </a>
+          <a data-cfg-href="mailto" class="bg-white p-6 rounded-3xl shadow-lg shadow-slate-200/40 flex gap-4 hover:shadow-xl transition">
+            <span class="w-12 h-12 rounded-full bg-azul-claro text-azul-texto flex items-center justify-center shrink-0"><i data-lucide="mail" class="w-5 h-5"></i></span>
+            <span class="min-w-0"><span class="block font-titulo font-black text-azul-escuro">E-mail</span><span class="block text-slate-600 text-sm break-all" data-cfg="email"></span></span>
+          </a>
+          <a data-cfg-href="mapa" target="_blank" rel="noopener" class="bg-white p-6 rounded-3xl shadow-lg shadow-slate-200/40 flex gap-4 hover:shadow-xl transition">
+            <span class="w-12 h-12 rounded-full bg-azul-claro text-azul-texto flex items-center justify-center shrink-0"><i data-lucide="map-pin" class="w-5 h-5"></i></span>
+            <span><span class="block font-titulo font-black text-azul-escuro">Onde estamos</span><span class="block text-slate-600 text-sm" data-cfg="endereco"></span></span>
+          </a>
+        </aside>
+      </div>
+    </main>
+
+    <!-- ==================== 4. TRABALHE CONOSCO ==================== -->
+    <main id="tab-vagas" class="tab-content flex-1 max-w-6xl mx-auto px-6 py-16 w-full">
+      <div class="grid lg:grid-cols-12 gap-10 items-center mb-12">
+        <div class="lg:col-span-7">
+          <p class="font-titulo font-extrabold text-rosa-escuro">Trabalhe conosco</p>
+          <h1 class="mt-1 font-titulo text-4xl font-black text-azul-escuro tracking-tight">Venha ser cuidado por quem cuida.</h1>
+          <p class="text-slate-600 text-lg mt-3 leading-relaxed">Na Select você tem carteira assinada, treinamento e alguém acompanhando o seu dia a dia. A gente quer que você cresça com a gente.</p>
+        </div>
+        <ul class="lg:col-span-5 grid grid-cols-2 gap-3 text-sm font-bold text-azul-texto">
+          <li class="bg-white rounded-3xl p-5 shadow-md"><i data-lucide="file-signature" class="w-5 h-5 text-rosa mb-2"></i>Carteira assinada</li>
+          <li class="bg-white rounded-3xl p-5 shadow-md"><i data-lucide="graduation-cap" class="w-5 h-5 text-rosa mb-2"></i>Treinamento</li>
+          <li class="bg-white rounded-3xl p-5 shadow-md"><i data-lucide="ear" class="w-5 h-5 text-rosa mb-2"></i>Escuta e acompanhamento</li>
+          <li class="bg-white rounded-3xl p-5 shadow-md"><i data-lucide="smartphone" class="w-5 h-5 text-rosa mb-2"></i>Portal pelo celular</li>
+        </ul>
+      </div>
+      <h2 class="font-titulo text-2xl font-black text-azul-escuro mb-5">Vagas abertas</h2>
+      <div id="lista-vagas" class="space-y-5"></div>
+    </main>
+
+    <!-- ==================== 5. TRANSPARÊNCIA ==================== -->
+    <main id="tab-transparencia" class="tab-content flex-1 max-w-6xl mx-auto px-6 py-16 w-full">
+      <div class="max-w-3xl mb-12">
+        <p class="font-titulo font-extrabold text-rosa-escuro">Governança</p>
+        <h1 class="mt-1 font-titulo text-4xl font-black text-azul-escuro tracking-tight">Transparência</h1>
+        <p class="text-slate-600 text-lg mt-4 leading-relaxed">Nossas regras, políticas e relatórios ficam abertos para todos. Igualdade e ética fazem parte do nosso dia a dia.</p>
+      </div>
+      <div id="lista-documentos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </main>
+
+    <!-- ==================== 6. CANAL ÉTICO ==================== -->
+    <main id="tab-denuncia" class="tab-content flex-1 max-w-5xl mx-auto px-6 py-16 w-full">
+      <div class="max-w-3xl mb-10">
+        <p class="font-titulo font-extrabold text-rosa-escuro">Canal Ético</p>
+        <h1 class="mt-1 font-titulo text-3xl sm:text-4xl font-black text-azul-escuro tracking-tight">Você pode falar. A gente escuta e protege.</h1>
+        <p class="text-slate-600 mt-4 text-lg leading-relaxed">Assédio, discriminação, fraude ou qualquer atitude contra o nosso Código de Conduta. Garantimos sigilo e não aceitamos retaliação contra quem denuncia de boa-fé.</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white p-9 rounded-3xl shadow-xl shadow-slate-200/50 flex flex-col ring-2 ring-rosa/20">
+          <span class="w-14 h-14 rounded-full grad text-white flex items-center justify-center"><i data-lucide="shield-check" class="w-6 h-6"></i></span>
+          <h2 class="mt-5 font-titulo text-xl font-black text-azul-escuro">Sou colaborador</h2>
+          <p class="mt-2 text-slate-600 leading-relaxed flex-1">Use a <strong>Ouvidoria</strong> do Portal do Colaborador. Dá para enviar <strong>sem se identificar</strong>, e você recebe um protocolo para acompanhar.</p>
+          <a data-portal="portal.html" class="mt-6 px-6 py-3.5 grad text-white font-titulo font-extrabold rounded-full hover:brightness-105 transition flex items-center justify-center gap-2"><i data-lucide="lock" class="w-4 h-4"></i> Ir para a Ouvidoria</a>
+        </div>
+        <div class="bg-white p-9 rounded-3xl shadow-xl shadow-slate-200/50 flex flex-col">
+          <span class="w-14 h-14 rounded-full bg-azul-claro text-azul-texto flex items-center justify-center"><i data-lucide="mail" class="w-6 h-6"></i></span>
+          <h2 class="mt-5 font-titulo text-xl font-black text-azul-escuro">Não sou colaborador</h2>
+          <p class="mt-2 text-slate-600 leading-relaxed flex-1">Clientes, fornecedores e qualquer pessoa podem usar o <strong>formulário abaixo, sem se identificar</strong>, ou escrever para o canal ético por e-mail. <span class="text-slate-500">Pelo e-mail, o seu endereço aparece para nós.</span></p>
+          <a data-cfg-href="mailtoEtica" class="mt-6 px-6 py-3.5 border-2 border-azul text-azul-texto hover:bg-azul hover:text-white font-titulo font-extrabold rounded-full transition flex items-center justify-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> Escrever para o canal ético</a>
+        </div>
+      </div>
+      <!-- Denúncia pelo site: qualquer pessoa pode usar, sem se identificar. Vai para a Ouvidoria do Painel do DP. -->
+      <form id="form-denuncia" class="mt-6 bg-white p-9 rounded-3xl shadow-xl shadow-slate-200/50" novalidate data-revelar>
+        <div id="den-campos" class="space-y-6">
+          <div>
+            <h2 class="font-titulo text-xl font-black text-azul-escuro flex items-center gap-2"><i data-lucide="shield-alert" class="w-5 h-5 text-rosa-escuro"></i>Denunciar pelo site</h2>
+            <p class="mt-2 text-slate-600 leading-relaxed">Qualquer pessoa pode usar: colaborador, ex-colaborador, cliente ou fornecedor. <strong>Não precisa se identificar.</strong> No fim, você recebe um número de protocolo.</p>
+          </div>
+          <fieldset>
+            <legend class="text-sm font-bold text-slate-600 mb-3">Motivo *</legend>
+            <div id="den-motivos" class="flex flex-wrap gap-2"></div>
+          </fieldset>
+          <div>
+            <label for="den-relato" class="text-sm font-bold text-slate-600 block mb-2">O que aconteceu? *</label>
+            <textarea id="den-relato" rows="6" maxlength="5000" class="w-full px-5 py-3.5 bg-fundo border-2 border-transparent rounded-2xl focus:bg-white focus:border-azul outline-none transition resize-none" placeholder="Conte o que aconteceu, quando, onde e quem estava envolvido, se souber."></textarea>
+          </div>
+          <details class="rounded-2xl bg-fundo p-5">
+            <summary class="text-sm font-bold text-slate-600 cursor-pointer">Quero deixar um contato (opcional)</summary>
+            <div class="mt-4 grid sm:grid-cols-3 gap-4">
+              <input id="den-nome" type="text" maxlength="150" autocomplete="name" placeholder="Nome" aria-label="Nome (opcional)" class="w-full px-5 py-3.5 bg-fundo border-2 border-transparent rounded-2xl focus:bg-white focus:border-azul outline-none transition">
+              <input id="den-telefone" type="tel" maxlength="20" autocomplete="tel" placeholder="Telefone" aria-label="Telefone (opcional)" class="w-full px-5 py-3.5 bg-fundo border-2 border-transparent rounded-2xl focus:bg-white focus:border-azul outline-none transition">
+              <input id="den-email" type="email" maxlength="255" autocomplete="email" placeholder="E-mail" aria-label="E-mail (opcional)" class="w-full px-5 py-3.5 bg-fundo border-2 border-transparent rounded-2xl focus:bg-white focus:border-azul outline-none transition">
+            </div>
+            <p class="mt-3 text-xs text-slate-500">Só preencha se quiser que a gente fale com você sobre o caso.</p>
+          </details>
+          <!-- armadilha para robôs: pessoa de verdade não vê nem preenche -->
+          <input type="text" id="den-site" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div id="den-aviso" class="hidden" role="status"></div>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+            <button type="submit" id="den-enviar" class="px-8 py-4 grad text-white font-titulo font-extrabold rounded-full shadow-lg shadow-rose-500/25 hover:brightness-105 transition flex items-center justify-center gap-2"><i data-lucide="lock" class="w-4 h-4"></i> Enviar denúncia</button>
+            <p class="text-xs text-slate-500">Sigilo garantido. Não aceitamos retaliação contra quem denuncia de boa-fé.</p>
+          </div>
+        </div>
+        <div id="den-sucesso" class="hidden text-center py-6" role="status">
+          <span class="inline-flex w-14 h-14 rounded-full bg-rosa-claro text-rosa-escuro items-center justify-center"><i data-lucide="check" class="w-7 h-7"></i></span>
+          <h2 class="mt-4 font-titulo text-xl font-black text-azul-escuro">Denúncia recebida</h2>
+          <p class="mt-2 text-slate-600 leading-relaxed">Seu protocolo é <strong id="den-protocolo" class="text-azul-escuro"></strong>. Guarde este número.</p>
+          <button type="button" id="den-nova" class="mt-5 text-sm font-bold underline text-rosa-escuro">Fazer outra denúncia</button>
+        </div>
+      </form>
+    </main>
+
+    <!-- ==================== 7. COLABORADOR ==================== -->
+    <main id="tab-colaborador" class="tab-content flex-1 max-w-6xl mx-auto px-6 py-16 w-full">
+      <div class="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-azul to-azul-escuro p-9 sm:p-12 text-white">
+        <div class="absolute -right-12 -top-12 w-60 h-60 rounded-full border-[22px] border-white/10" aria-hidden="true"></div>
+        <div class="relative max-w-2xl">
+          <p class="font-titulo font-extrabold text-rosa-claro">Área do colaborador</p>
+          <h1 class="mt-1 font-titulo text-3xl sm:text-4xl font-black">Portal Conecta</h1>
+          <p class="mt-4 text-blue-50/90 text-lg leading-relaxed">O seu cantinho no RH: tudo o que você precisa, num só lugar e pelo celular.</p>
+          <div class="mt-8 flex flex-col sm:flex-row gap-3">
+            <a data-portal="index.html" class="px-7 py-4 grad text-white font-titulo font-extrabold rounded-full hover:brightness-105 transition flex items-center justify-center gap-2"><i data-lucide="log-in" class="w-4 h-4"></i> Já tenho login</a>
+            <a data-portal="primeiro-acesso.html" class="px-7 py-4 bg-white text-azul-escuro hover:bg-azul-claro font-titulo font-extrabold rounded-full transition flex items-center justify-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Primeiro acesso</a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white p-6 rounded-3xl shadow-lg shadow-slate-200/40"><span class="w-11 h-11 rounded-full bg-rosa-claro text-rosa-escuro flex items-center justify-center"><i data-lucide="file-heart" class="w-5 h-5"></i></span><h3 class="mt-4 font-titulo font-black text-azul-escuro">Atestados</h3><p class="mt-1 text-sm text-slate-600">Envie a foto ou o PDF e acompanhe a análise.</p></div>
+        <div class="bg-white p-6 rounded-3xl shadow-lg shadow-slate-200/40"><span class="w-11 h-11 rounded-full bg-azul-claro text-azul-texto flex items-center justify-center"><i data-lucide="megaphone" class="w-5 h-5"></i></span><h3 class="mt-4 font-titulo font-black text-azul-escuro">Comunicados</h3><p class="mt-1 text-sm text-slate-600">Avisos do RH com registro de leitura.</p></div>
+        <div class="bg-white p-6 rounded-3xl shadow-lg shadow-slate-200/40"><span class="w-11 h-11 rounded-full bg-rosa-claro text-rosa-escuro flex items-center justify-center"><i data-lucide="message-circle-heart" class="w-5 h-5"></i></span><h3 class="mt-4 font-titulo font-black text-azul-escuro">Ouvidoria</h3><p class="mt-1 text-sm text-slate-600">Denúncias, sugestões e elogios, com anonimato.</p></div>
+        <div class="bg-white p-6 rounded-3xl shadow-lg shadow-slate-200/40"><span class="w-11 h-11 rounded-full bg-azul-claro text-azul-texto flex items-center justify-center"><i data-lucide="receipt-text" class="w-5 h-5"></i></span><h3 class="mt-4 font-titulo font-black text-azul-escuro">Holerites</h3><p class="mt-1 text-sm text-slate-600">Em breve: seus contracheques no portal.</p></div>
+      </div>
+      <div class="mt-8 bg-white p-9 sm:p-10 rounded-3xl shadow-lg shadow-slate-200/40">
+        <h2 class="font-titulo text-2xl font-black text-azul-escuro">Programa de Integridade</h2>
+        <p class="mt-3 text-slate-600 leading-relaxed">Diretrizes, normas e medidas para prevenir, detectar e corrigir desvios éticos. Todo colaborador deve conhecer o nosso Código de Conduta (disponível na aba Transparência) e usar a Ouvidoria sempre que presenciar algo errado.</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Chamada final (aparece em todas as abas, menos em "Contrate") -->
+  <section id="chamada-final" class="max-w-7xl mx-auto px-6 pb-16 w-full">
+    <div class="grad rounded-[2rem] p-9 md:p-12 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-xl shadow-rose-500/20">
+      <div>
+        <h2 class="font-titulo text-2xl md:text-3xl font-black text-white">Precisa de gente boa na sua equipe?</h2>
+        <p class="mt-1 text-white font-semibold">Conte para a gente o que você procura. O orçamento é sem compromisso.</p>
+      </div>
+      <a href="#contrate" class="px-8 py-4 bg-white text-rosa-escuro hover:bg-rosa-claro font-titulo font-extrabold rounded-full transition text-center whitespace-nowrap">Pedir orçamento</a>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="bg-white border-t border-slate-200 text-slate-500 text-sm mt-auto">
+    <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row justify-between items-center gap-6">
+      <img src="img/logo.png" alt="Select" class="h-9 w-auto">
+      <nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 font-bold" aria-label="Links do rodapé">
+        <a href="#servicos" class="hover:text-rosa-escuro">Serviços</a>
+        <a href="#contrate" class="hover:text-rosa-escuro">Contrate</a>
+        <a href="#vagas" class="hover:text-rosa-escuro">Trabalhe conosco</a>
+        <a href="#transparencia" class="hover:text-rosa-escuro">Transparência</a>
+        <a href="#denuncia" class="hover:text-rosa-escuro">Canal Ético</a>
+        <a data-portal="portal.html" class="hover:text-rosa-escuro">Portal do Colaborador</a>
+      </nav>
+      <span class="text-center md:text-right text-xs"><span class="font-extrabold text-azul-texto">Select</span> © <span data-ano></span> · <span data-cfg="cidade"></span></span>
+    </div>
+  </footer>
+
+  <!-- Botão do WhatsApp: aparece sozinho quando o número for colocado no bloco EDITE AQUI -->
+  <a id="botao-whatsapp" target="_blank" rel="noopener" aria-label="Falar no WhatsApp" title="Falar no WhatsApp" hidden><svg viewBox="0 0 32 32" width="30" height="30" fill="currentColor" aria-hidden="true"><path d="M16.04 3C8.86 3 3.03 8.82 3.03 16c0 2.3.6 4.54 1.75 6.52L3 29l6.65-1.74A12.95 12.95 0 0 0 16.04 29C23.2 29 29 23.18 29 16S23.2 3 16.04 3Zm0 23.62c-1.98 0-3.92-.53-5.61-1.54l-.4-.24-3.95 1.03 1.05-3.85-.26-.4A10.6 10.6 0 0 1 5.4 16c0-5.86 4.77-10.63 10.64-10.63 5.86 0 10.6 4.77 10.6 10.63 0 5.87-4.75 10.62-10.6 10.62Zm5.83-7.95c-.32-.16-1.89-.93-2.18-1.04-.29-.11-.5-.16-.72.16-.21.32-.82 1.04-1.01 1.25-.18.21-.37.24-.69.08-.32-.16-1.35-.5-2.57-1.59-.95-.85-1.59-1.9-1.78-2.21-.18-.32-.02-.49.14-.65.14-.14.32-.37.48-.56.16-.18.21-.32.32-.53.1-.21.05-.4-.03-.56-.08-.16-.72-1.73-.98-2.37-.26-.62-.52-.53-.72-.54h-.61c-.21 0-.56.08-.85.4-.29.32-1.11 1.09-1.11 2.66 0 1.57 1.14 3.08 1.3 3.3.16.21 2.24 3.42 5.43 4.8.76.33 1.35.52 1.81.67.76.24 1.45.21 2 .13.61-.09 1.89-.77 2.15-1.52.27-.74.27-1.38.19-1.52-.08-.13-.29-.21-.61-.37Z"/></svg></a>
+
+  <script>
+    /* ==========================================================
+       ✏️ EDITE AQUI: dados da empresa (aparecem no site inteiro)
+       ========================================================== */
+    const CONFIG = {
+      empresa:  'Select',
+      slug:     'select',                            // identifica o site nos pedidos e no link do portal
+      telefone: '(85) 0000-0000',                    // TROCAR pelo telefone real
+      telLink:  '+558500000000',                     // o mesmo telefone, só números com +55
+      whatsapp: '',                                  // TROCAR: WhatsApp com DDD, ex.: '5585999999999' (vazio = botão escondido)
+      horario:  'Seg a Sex: 08h às 17h',
+      cidade:   'Fortaleza/CE',
+      endereco: 'Endereço a definir · Fortaleza/CE', // TROCAR pelo endereço real
+      email:    'contato@empresa.com.br',            // TROCAR: e-mail comercial
+      emailRh:  'rh@empresa.com.br',                 // TROCAR: e-mail que recebe currículos
+      emailEtica: 'etica@empresa.com.br',            // TROCAR: e-mail do canal ético
+      // Servidor Java que recebe os pedidos de orçamento (quando estiver na internet, troque pelo endereço dele)
+      api:      'http://localhost:8080',
+      // Portal Conecta (pasta "portal" do PortalConecta). Quando estiver na internet, troque pelo link dele.
+      portal:   '../../portal/',
+      // Serviços: aparecem no início, na aba Serviços e nas opções do pedido de orçamento
+      servicos: [
+        { nome: 'Recepção e atendimento', icone: 'concierge-bell', descricao: 'Profissionais simpáticos e organizados para receber bem quem chega na sua empresa.', funcoes: ['Recepcionista', 'Atendente', 'Telefonista'] },
+        { nome: 'Limpeza e higienização', icone: 'sparkles', descricao: 'Ambientes limpos e cuidados todos os dias, com produtos e técnicas adequadas.', funcoes: ['Auxiliar de limpeza', 'Auxiliar de higienização', 'Encarregado(a)'] },
+        { nome: 'Copa e cozinha', icone: 'coffee', descricao: 'Café, lanches e refeições preparados com higiene e carinho.', funcoes: ['Copeiro(a)', 'Merendeira', 'Auxiliar de cozinha'] },
+        { nome: 'Apoio administrativo', icone: 'clipboard-list', descricao: 'Ajuda nas rotinas de escritório: documentos, arquivo, cadastros e entregas.', funcoes: ['Auxiliar administrativo', 'Digitador(a)', 'Mensageiro(a)'] },
+        { nome: 'Portaria', icone: 'key-round', descricao: 'Controle de acesso com atenção e educação, de dia e de noite.', funcoes: ['Porteiro(a)', 'Controlador(a) de acesso', 'Folguista'] },
+        { nome: 'Serviços gerais', icone: 'hand-helping', descricao: 'Apoio no dia a dia: organização, pequenos serviços e zeladoria.', funcoes: ['Auxiliar de serviços gerais', 'Zelador(a)', 'Carregador(a)'] },
+        { nome: 'Manutenção e reparos', icone: 'wrench', descricao: 'Pequenos consertos, pintura e manutenção preventiva das instalações.', funcoes: ['Oficial de manutenção', 'Pintor(a)', 'Eletricista'] },
+        { nome: 'Recrutamento e seleção', icone: 'user-search', descricao: 'Encontramos o profissional ideal para o seu quadro próprio, com triagem e entrevistas.', funcoes: ['Triagem de currículos', 'Entrevistas', 'Avaliação prática'] }
+      ],
+      // Documentos da aba Transparência: coloque o PDF na pasta "docs" e escreva o nome em "arquivo".
+      documentos: [
+        { titulo: 'Código de Conduta', icone: 'file-text', arquivo: '' },
+        { titulo: 'Medidas Disciplinares', icone: 'shield', arquivo: '' },
+        { titulo: 'Organograma', icone: 'network', arquivo: '' },
+        { titulo: 'Relatório de Transparência Salarial', icone: 'file-spreadsheet', arquivo: '' },
+        { titulo: 'Declaração de Igualdade Salarial', icone: 'file-check', arquivo: '' },
+        { titulo: 'Política de Privacidade (LGPD)', icone: 'lock', arquivo: '' }
+      ],
+      // Vagas abertas. Exemplo: { titulo: 'Recepcionista', local: 'Fortaleza/CE', descricao: '...', requisito: 'Ensino médio' }
+      vagas: []
+    };
+    /* ========================================================== */
+
+    const $ = (id) => document.getElementById(id);
+    const esc = (t) => String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const soNumeros = (v) => String(v || '').replace(/\D/g, '');
+
+    // ===== Textos e links que vêm do CONFIG =====
+    const links = {
+      tel: 'tel:' + CONFIG.telLink,
+      mailto: 'mailto:' + CONFIG.email,
+      mailtoEtica: 'mailto:' + CONFIG.emailEtica + '?subject=' + encodeURIComponent('Canal Ético - ' + CONFIG.empresa),
+      mapa: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.endereco)
+    };
+    document.querySelectorAll('[data-cfg]').forEach(el => el.textContent = CONFIG[el.dataset.cfg]);
+    document.querySelectorAll('[data-cfg-href]').forEach(el => el.href = links[el.dataset.cfgHref]);
+    document.querySelectorAll('[data-portal]').forEach(el => el.href = CONFIG.portal + el.dataset.portal + '?empresa=' + CONFIG.slug);
+    document.querySelectorAll('[data-ano]').forEach(el => el.textContent = new Date().getFullYear());
+
+    // ===== Serviços =====
+    $('servicos-destaque').innerHTML = CONFIG.servicos.slice(0, 6).map((s, i) => `
+      <a href="#servicos" class="brilho group rounded-3xl p-7 bg-fundo hover:bg-white hover:shadow-xl hover:shadow-slate-200/60 hover:-translate-y-1 transition">
+        <span class="w-12 h-12 rounded-full ${i % 2 ? 'bg-azul-claro text-azul-texto' : 'bg-rosa-claro text-rosa-escuro'} flex items-center justify-center"><i data-lucide="${esc(s.icone)}" class="w-6 h-6"></i></span>
+        <h3 class="mt-5 font-titulo text-lg font-black text-azul-escuro">${esc(s.nome)}</h3>
+        <p class="mt-2 text-sm text-slate-600 leading-relaxed">${esc(s.descricao)}</p>
+      </a>`).join('');
+    $('servicos-lista').innerHTML = CONFIG.servicos.map((s, i) => `
+      <article class="brilho bg-white rounded-3xl p-8 shadow-lg shadow-slate-200/50 hover:shadow-xl hover:-translate-y-1 transition flex flex-col">
+        <span class="w-14 h-14 rounded-full ${i % 2 ? 'bg-azul-claro text-azul-texto' : 'grad text-white'} flex items-center justify-center"><i data-lucide="${esc(s.icone)}" class="w-6 h-6"></i></span>
+        <h2 class="mt-5 font-titulo text-xl font-black text-azul-escuro">${esc(s.nome)}</h2>
+        <p class="mt-2 text-slate-600 leading-relaxed flex-1">${esc(s.descricao)}</p>
+        <ul class="mt-5 flex flex-wrap gap-2">${s.funcoes.map(f => `<li class="px-3 py-1 rounded-full bg-fundo text-xs font-bold text-azul-texto">${esc(f)}</li>`).join('')}</ul>
+      </article>`).join('');
+    $('opcoes-servicos').innerHTML = [...CONFIG.servicos.map(s => s.nome), 'Outro'].map(n => `
+      <label class="opcao cursor-pointer"><input type="checkbox" name="servico" value="${esc(n)}" class="sr-only">
+        <span class="inline-block px-4 py-2 rounded-full border-2 border-slate-200 text-sm font-bold text-slate-600 hover:border-rosa transition-colors">${esc(n)}</span></label>`).join('');
+
+    // ===== Transparência: documento sem arquivo aparece como "Em breve" =====
+    $('lista-documentos').innerHTML = CONFIG.documentos.map(d => d.arquivo
+      ? `<a href="docs/${esc(d.arquivo)}" target="_blank" rel="noopener" class="group p-6 bg-white rounded-3xl shadow-md shadow-slate-200/50 hover:shadow-lg transition flex items-center justify-between gap-4">
+           <span class="font-bold text-slate-700 group-hover:text-rosa-escuro">${esc(d.titulo)}</span>
+           <span class="w-10 h-10 rounded-full bg-rosa-claro text-rosa-escuro flex items-center justify-center shrink-0"><i data-lucide="${esc(d.icone)}" class="w-4 h-4"></i></span></a>`
+      : `<div class="p-6 bg-white/70 border-2 border-dashed border-slate-200 rounded-3xl flex items-center justify-between gap-4">
+           <span class="font-bold text-slate-500">${esc(d.titulo)}</span>
+           <span class="text-xs font-extrabold font-titulo text-slate-400 bg-slate-100 px-3 py-1 rounded-full">Em breve</span></div>`).join('');
+
+    // ===== Vagas (ou o convite para o banco de talentos) =====
+    const assuntoCurriculo = encodeURIComponent('Currículo - Banco de talentos ' + CONFIG.empresa);
+    $('lista-vagas').innerHTML = (CONFIG.vagas.length ? CONFIG.vagas.map(v => `
+      <div class="bg-white p-8 rounded-3xl shadow-lg shadow-slate-200/40 flex flex-col md:flex-row gap-6 md:items-center justify-between">
+        <div class="flex-1">
+          <h3 class="font-titulo text-2xl font-black text-azul-escuro">${esc(v.titulo)}</h3>
+          <p class="text-slate-600 text-sm mt-2 leading-relaxed">${esc(v.descricao)}</p>
+          <div class="flex flex-wrap gap-2 mt-4 text-xs font-bold text-slate-500">
+            <span class="bg-fundo px-3 py-1 rounded-full">Local: ${esc(v.local)}</span>
+            <span class="bg-fundo px-3 py-1 rounded-full">Requisito: ${esc(v.requisito)}</span>
+          </div>
+        </div>
+        <a href="mailto:${esc(CONFIG.emailRh)}?subject=${encodeURIComponent('Candidatura: ' + v.titulo)}" class="px-6 py-3 grad text-white font-titulo font-extrabold rounded-full hover:brightness-105 transition text-center">Candidatar-se</a>
+      </div>`).join('') : '') + `
+      <div class="bg-white p-9 sm:p-12 rounded-3xl shadow-lg shadow-slate-200/40 text-center">
+        <span class="w-16 h-16 mx-auto rounded-full grad text-white flex items-center justify-center"><i data-lucide="briefcase" class="w-7 h-7"></i></span>
+        <h3 class="mt-5 font-titulo text-2xl font-black text-azul-escuro">${CONFIG.vagas.length ? 'Não achou a sua vaga?' : 'No momento não há vagas abertas'}</h3>
+        <p class="mt-2 text-slate-600 max-w-lg mx-auto">Envie o seu currículo para o nosso banco de talentos. Quando surgir uma oportunidade com o seu perfil, a gente entra em contato.</p>
+        <a href="mailto:${esc(CONFIG.emailRh)}?subject=${assuntoCurriculo}" class="mt-6 inline-flex px-7 py-4 border-2 border-azul text-azul-texto hover:bg-azul hover:text-white font-titulo font-extrabold rounded-full transition items-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> Enviar currículo</a>
+      </div>`;
+
+    // ===== Pedido de orçamento: vai para o servidor Java (e o comercial recebe por e-mail) =====
+    const form = $('form-orcamento'), aviso = $('o-aviso');
+    function mostrarAviso(html, tipo) {
+      aviso.innerHTML = html;
+      aviso.className = 'rounded-2xl p-4 text-sm font-bold ' + (tipo === 'erro' ? 'bg-rosa-claro text-rosa-escuro' : 'bg-amber-50 text-amber-800');
+    }
+    $('o-telefone').addEventListener('input', e => {
+      const d = soNumeros(e.target.value).slice(0, 11);
+      let t = d.replace(/^(\d{2})(\d)/, '($1) $2');
+      t = d.length > 10 ? t.replace(/(\d{5})(\d{4})$/, '$1-$2') : t.replace(/(\d{4})(\d{1,4})$/, '$1-$2');
+      e.target.value = t;
+    });
+    $('o-cnpj').addEventListener('input', e => {
+      const d = soNumeros(e.target.value).slice(0, 14);
+      e.target.value = d.replace(/^(\d{2})(\d)/, '$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d)/, '.$1/$2').replace(/(\d{4})(\d)/, '$1-$2');
+    });
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      aviso.className = 'hidden';
+      const servicos = [...form.querySelectorAll('input[name=servico]:checked')].map(i => i.value);
+      const dados = {
+        empresaSite: CONFIG.slug,
+        nome: $('o-nome').value.trim(),
+        empresaCliente: $('o-empresa').value.trim(),
+        cnpj: soNumeros($('o-cnpj').value),
+        telefone: soNumeros($('o-telefone').value),
+        email: $('o-email').value.trim(),
+        cidade: $('o-cidade').value.trim(),
+        servicos,
+        quantidade: $('o-qtd').value ? Number($('o-qtd').value) : null,
+        mensagem: $('o-msg').value.trim(),
+        site: form.elements.site.value
+      };
+      if (!servicos.length) return mostrarAviso('Marque pelo menos um tipo de profissional.', 'erro');
+      if (dados.nome.length < 2) { $('o-nome').focus(); return mostrarAviso('Informe o seu nome.', 'erro'); }
+      if (!dados.telefone && !dados.email) { $('o-telefone').focus(); return mostrarAviso('Informe um telefone ou e-mail para a gente responder.', 'erro'); }
+
+      const btn = $('o-enviar');
+      btn.disabled = true; btn.classList.add('opacity-70');
+      try {
+        const resp = await fetch(CONFIG.api + '/api/orcamentos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dados) });
+        const txt = await resp.text();
+        if (resp.ok) {
+          $('o-protocolo').textContent = JSON.parse(txt).protocolo;
+          form.reset(); form.classList.add('hidden'); $('o-sucesso').classList.remove('hidden');
+          $('o-sucesso').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          mostrarAviso(esc(txt || 'Não foi possível enviar. Confira os dados e tente de novo.'), 'erro');
+        }
+      } catch (_) {
+        const corpo = `Serviços: ${servicos.join(', ')}\nNome: ${dados.nome}\nEmpresa: ${dados.empresaCliente}\nTelefone: ${$('o-telefone').value}\nE-mail: ${dados.email}\nCidade: ${dados.cidade}\nProfissionais: ${dados.quantidade || ''}\n\n${dados.mensagem}`;
+        const mailto = 'mailto:' + CONFIG.email + '?subject=' + encodeURIComponent('Pedido de orçamento - ' + dados.nome) + '&body=' + encodeURIComponent(corpo);
+        mostrarAviso(`Não conseguimos enviar pelo site agora. <a class="underline" href="${mailto}">Envie por e-mail</a> ou ligue para ${esc(CONFIG.telefone)}.`, 'alerta');
+      }
+      btn.disabled = false; btn.classList.remove('opacity-70');
+    });
+    $('o-novo').addEventListener('click', () => { $('o-sucesso').classList.add('hidden'); form.classList.remove('hidden'); });
+
+    // ===== Abas pelo endereço (#servicos, #contrate...), igual ao site da Athos =====
+    const ABAS = ['inicio', 'servicos', 'contrate', 'vagas', 'transparencia', 'denuncia', 'colaborador'];
+    function mostrarAba() {
+      let aba = location.hash.replace('#', '') || 'inicio';
+      if (aba === 'contato') aba = 'contrate';
+      if (!ABAS.includes(aba)) aba = 'inicio';
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.toggle('active', el.id === 'tab-' + aba));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.toggle('active', el.dataset.tab === aba));
+      $('chamada-final').classList.toggle('hidden', aba === 'contrate');
+      window.scrollTo(0, 0);
+    }
+    window.addEventListener('hashchange', mostrarAba);
+    mostrarAba();
+
+    // ===== Faixa de serviços e quantidade de serviços (vêm do CONFIG) =====
+    $('letreiro').innerHTML = CONFIG.servicos.map(s => `<span class="flex items-center gap-6 px-6 whitespace-nowrap">${esc(s.nome)}<i data-lucide="heart" class="w-4 h-4 text-rosa fill-rosa"></i></span>`).join('');
+    document.querySelectorAll('[data-qtd-servicos]').forEach(el => { el.dataset.contar = CONFIG.servicos.length; el.textContent = CONFIG.servicos.length; });
+
+    // ===== Canal Ético: denúncia pelo site (pode ser anônima; vai para a Ouvidoria do Painel do DP) =====
+    const MOTIVOS_DENUNCIA = ['Assédio moral ou sexual', 'Discriminação', 'Fraude ou corrupção', 'Descumprimento de normas', 'Conflito de interesses', 'Outros'];
+    $('den-motivos').innerHTML = MOTIVOS_DENUNCIA.map(m => `<label class="opcao cursor-pointer"><input type="radio" name="motivo" value="${esc(m)}" class="sr-only">
+      <span class="inline-block px-4 py-2 rounded-full border-2 border-slate-200 text-sm font-bold text-slate-600 hover:border-rosa transition-colors">${esc(m)}</span></label>`).join('');
+    const formDen = $('form-denuncia'), avisoDen = $('den-aviso');
+    const avisarDen = (html, tipo) => {
+      avisoDen.innerHTML = html;
+      avisoDen.className = 'p-4 text-sm font-semibold rounded-2xl ' + (tipo === 'erro' ? 'bg-red-50 text-red-700' : 'bg-amber-50 text-amber-800');
+    };
+    formDen.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      avisoDen.className = 'hidden';
+      const marcado = formDen.querySelector('input[name=motivo]:checked');
+      const relato = $('den-relato').value.trim();
+      if (!marcado) return avisarDen('Escolha o motivo da denúncia.', 'erro');
+      if (relato.length < 10) { $('den-relato').focus(); return avisarDen('Conte o que aconteceu (pelo menos algumas palavras).', 'erro'); }
+      const dados = { empresaSite: CONFIG.slug, motivo: marcado.value, relato,
+                      nome: $('den-nome').value.trim(), telefone: $('den-telefone').value.trim(), email: $('den-email').value.trim(),
+                      site: $('den-site').value };
+      const btn = $('den-enviar');
+      btn.disabled = true; btn.classList.add('opacity-70');
+      try {
+        const resp = await fetch(CONFIG.api + '/api/denuncias', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dados) });
+        const txt = await resp.text();
+        if (resp.ok) {
+          $('den-protocolo').textContent = JSON.parse(txt).protocolo;
+          formDen.reset();
+          $('den-campos').classList.add('hidden'); $('den-sucesso').classList.remove('hidden');
+        } else {
+          avisarDen(esc(txt || 'Não foi possível enviar. Confira os dados e tente de novo.'), 'erro');
+        }
+      } catch (_) {
+        // Servidor fora do ar: oferece o e-mail do canal ético
+        avisarDen(`Não conseguimos enviar pelo site agora. <a class="underline" href="${links.mailtoEtica}">Escreva para o canal ético por e-mail</a> ou tente de novo mais tarde.`, 'alerta');
+      }
+      btn.disabled = false; btn.classList.remove('opacity-70');
+    });
+    $('den-nova').addEventListener('click', () => { $('den-sucesso').classList.add('hidden'); $('den-campos').classList.remove('hidden'); });
+
+    // ===== Botão do WhatsApp (só aparece com o número preenchido no CONFIG) =====
+    const zap = String(CONFIG.whatsapp || '').replace(/\D/g, '');
+    if (zap.length >= 12) {
+      const b = $('botao-whatsapp');
+      b.href = 'https://wa.me/' + zap + '?text=' + encodeURIComponent('Olá! Vim pelo site da ' + CONFIG.empresa + ' e gostaria de mais informações.');
+      b.hidden = false;
+    }
+
+    // ===== VERSÃO DE DEMONSTRAÇÃO (gerada por ferramentas/publicar_demo.py) =====
+    (function () {
+      function aviso(texto) {
+        let caixa = document.getElementById('aviso-demo');
+        if (!caixa) {
+          caixa = document.createElement('div');
+          caixa.id = 'aviso-demo';
+          caixa.setAttribute('role', 'status');
+          caixa.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);width:max-content;max-width:min(92vw,520px);'
+            + 'background:#111827;color:#fff;padding:14px 18px;border-radius:12px;font:600 15px/1.45 system-ui,sans-serif;'
+            + 'box-shadow:0 10px 30px rgba(0,0,0,.3);z-index:9999;text-align:center';
+          document.body.appendChild(caixa);
+        }
+        caixa.textContent = texto;
+        caixa.style.display = 'block';
+        clearTimeout(aviso.tempo);
+        aviso.tempo = setTimeout(() => { caixa.style.display = 'none'; }, 6000);
+      }
+      // Portal do Colaborador: ainda não publicado
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('[data-portal]')) {
+          e.preventDefault();
+          aviso('O Portal do Colaborador está em fase de testes e será liberado em breve.');
+        }
+      }, true);
+      // Formulário "Contrate": o servidor Java ainda não está na internet. Não tenta chamar o
+      // localhost (o Chrome pediria permissão a quem abrir o site); o site mostra a opção de e-mail.
+      const fetchOriginal = window.fetch;
+      window.fetch = (url, opcoes) => String(url).includes('/api/')
+        ? Promise.reject(new Error('demonstração: servidor ainda não publicado'))
+        : fetchOriginal(url, opcoes);
+    })();
+    lucide.createIcons();
+  </script>
+
+  <!-- Efeitos de movimento: ficam separados para nunca esconder o conteúdo se outra parte der erro -->
+  <script>
+    // ===== Efeitos: aparecer ao rolar, números que contam, brilho do mouse, barra de leitura e faixa =====
+    (() => {
+      const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window);
+      // Grupos: cada item aparece um pouquinho depois do anterior
+      document.querySelectorAll('[data-revelar-grupo]').forEach(grupo => [...grupo.children].forEach((item, i) => {
+        item.setAttribute('data-revelar', '');
+        item.style.setProperty('--atraso', (i * 0.09).toFixed(2) + 's');
+      }));
+      const contar = (el) => {
+        const fim = Number(el.dataset.contar), sufixo = el.dataset.sufixo || '', inicio = performance.now();
+        const passo = (agora) => {
+          const p = Math.min(1, (agora - inicio) / 1500);
+          el.textContent = Math.round(fim * (1 - Math.pow(1 - p, 3))) + sufixo;
+          if (p < 1) requestAnimationFrame(passo);
+        };
+        requestAnimationFrame(passo);
+      };
+      const mostrar = (el) => {
+        el.classList.add('visivel');
+        if (el.dataset.contar) contar(el);
+        // Depois que apareceu, devolve os efeitos normais de passar o mouse
+        setTimeout(() => el.removeAttribute('data-revelar'), 1600);
+      };
+      const pendentes = new Set();
+      const revelar = (el) => { if (!pendentes.delete(el)) return; mostrar(el); if (olho) olho.unobserve(el); };
+      const olho = calmo ? null : new IntersectionObserver((itens) => itens.forEach(e => {
+        if (e.isIntersecting) revelar(e.target);
+      }), { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+      document.querySelectorAll('[data-revelar], [data-contar]').forEach(el => {
+        if (calmo) { el.classList.add('visivel'); return; }
+        if (el.dataset.contar) el.textContent = '0' + (el.dataset.sufixo || '');
+        pendentes.add(el);
+        olho.observe(el);
+      });
+      // Rede de segurança: se o navegador demorar para avisar, a página confere sozinha o que já está na tela
+      if (!calmo) {
+        const conferir = () => {
+          pendentes.forEach(el => {
+            const r = el.getBoundingClientRect();
+            if (r.height > 0 && r.top < innerHeight - 30 && r.bottom > 0) revelar(el);
+          });
+          if (!pendentes.size) clearInterval(relogio);
+        };
+        const relogio = setInterval(conferir, 700);
+      }
+      // Brilho que segue o mouse nos cartões
+      document.addEventListener('pointermove', (e) => {
+        const c = e.target.closest && e.target.closest('.brilho');
+        if (!c) return;
+        const r = c.getBoundingClientRect();
+        c.style.setProperty('--x', (e.clientX - r.left) + 'px');
+        c.style.setProperty('--y', (e.clientY - r.top) + 'px');
+      }, { passive: true });
+      // Barra de leitura no alto
+      const barra = document.getElementById('progresso');
+      const medir = () => {
+        const h = document.documentElement;
+        barra.style.transform = 'scaleX(' + (h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)).toFixed(4) + ')';
+      };
+      addEventListener('scroll', medir, { passive: true });
+      addEventListener('hashchange', () => setTimeout(medir, 60));
+      medir();
+      // Faixa: repete a lista para correr sem emenda
+      document.querySelectorAll('.letreiro').forEach(l => { l.innerHTML += l.innerHTML; });
+    })();
+  </script>
+
+  <!-- Menu do celular (três barrinhas): mostra todas as partes do site numa lista -->
+  <script>
+    (() => {
+      const botao = document.getElementById('menu-botao'), painel = document.getElementById('menu-celular');
+      const lista = document.getElementById('menu-celular-lista'), fundo = document.getElementById('menu-fundo');
+      if (!botao || !painel || !lista) return;
+      // Os mesmos itens do menu do computador (assim, mudou lá, muda aqui)
+      lista.innerHTML = [...document.querySelectorAll('header nav .nav-btn')].map(a =>
+        `<li><a href="${a.getAttribute('href')}" data-tab="${a.dataset.tab}" class="item-menu ">${a.textContent.trim()}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></a></li>`).join('');
+      const marcar = () => {
+        const aba = document.querySelector('.tab-content.active');
+        const atual = aba ? aba.id.replace('tab-', '') : 'inicio';
+        lista.querySelectorAll('a').forEach(a => {
+          const ativo = a.dataset.tab === atual;
+          a.classList.toggle('ativo', ativo);
+          if (ativo) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+        });
+      };
+      const abrir = () => {
+        marcar();
+        painel.hidden = false; fundo.hidden = false;
+        botao.setAttribute('aria-expanded', 'true'); botao.setAttribute('aria-label', 'Fechar o menu');
+        document.body.style.overflow = 'hidden';
+        const primeiro = lista.querySelector('a');
+        if (primeiro) primeiro.focus({ preventScroll: true });
+      };
+      const fechar = (devolverFoco) => {
+        if (painel.hidden) return;
+        painel.hidden = true; fundo.hidden = true;
+        botao.setAttribute('aria-expanded', 'false'); botao.setAttribute('aria-label', 'Abrir o menu');
+        document.body.style.overflow = '';
+        if (devolverFoco) botao.focus();
+      };
+      botao.addEventListener('click', () => (painel.hidden ? abrir() : fechar(true)));
+      fundo.addEventListener('click', () => fechar(false));
+      painel.addEventListener('click', (e) => { if (e.target.closest('a')) fechar(false); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fechar(true); });
+      addEventListener('resize', () => { if (innerWidth >= 1024) fechar(false); });
+      addEventListener('hashchange', () => setTimeout(marcar, 0));
+    })();
+  </script>
+</body>
+</html>
